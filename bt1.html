@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bài Tập 1!</title>
+  </head>
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    function F1() {
+      $.ajax({
+        // url: "vd1.php",
+        // type: "GET",
+        // dataType: "json",
+        // data: "kw=" + $("#kw").val(),
+        url: "https://62145e8389fad53b1f11c79d.mockapi.io/book/book",
+        dataType: "json",
+        success: function (data) {
+            console.log(data),
+            $(".data").remove();
+            $.each (data, function(k,v){
+                var s =`<h3 class="data" style="color:red;cursor: pointer" onclick="deleteData(${v.id})">${v.id} - ${v.name}</h3>`
+                $('#result').append(s);
+            })
+        }
+        });
+    }
+    function  deleteData($id){
+        var id = $id;
+        $.ajax({
+        url: `https://62145e8389fad53b1f11c79d.mockapi.io/book/book/${id}`,
+        type: "DELETE",        
+        dataType: "json",        
+        success: function (data) {
+            F1();
+        }
+        });
+    }
+  </script>
+  <body>
+    keyword <input type="text" id="kw" onkeyup="F1()" />
+    <input type="button" value="Search"    /><hr/>
+    <div id="result"></div>
+  </body>
+</html>
